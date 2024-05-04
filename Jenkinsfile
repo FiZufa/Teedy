@@ -1,37 +1,34 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('Build') { 
             steps {
-                sh 'mvn -B clean install --fail-never'
-            }
-            post {
-                always {
-                    junit '**/target/surefire-reports/*.xml'
-                    archiveArtifacts artifacts: '**/target/site/**, **/target/**/*.jar, **/target/**/*.war, **/target/site/apidocs/**', fingerprint: true
-                }
+                // sh 'mvn -B clean package' 
+                sh 'mvn -B --fail-never package' 
             }
         }
         stage('pmd') {
             steps {
                 sh 'mvn pmd:pmd'
-                sh 'ls -R target/'
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: '**/target/site/pmd.xml', fingerprint: true
-                }
             }
         }
-        stage('Generate Javadoc') {
+           stage('javadoc') {
             steps {
                 sh 'mvn javadoc:jar'
             }
-            post {
-                always {
-                    archiveArtifacts artifacts: '**/target/site/apidocs/**', fingerprint: true
-                }
+        }   
+                   stage('Test Report') {
+            steps {
+                sh 'mvn surefire-report:report'
             }
+        }   
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: '**/target/**/*.html', fingerprint: true
+            archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true
+            archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
         }
     }
 }
