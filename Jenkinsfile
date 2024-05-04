@@ -7,8 +7,8 @@ pipeline {
             }
             post {
                 always {
-                    junit 'target/surefire-reports/*.xml'
-                    archiveArtifacts artifacts: 'target/site/**, target/**/*.jar, target/**/*.war, target/site/apidocs/**', fingerprint: true
+                    junit '**/target/surefire-reports/*.xml'
+                    archiveArtifacts artifacts: '**/target/site/**, **/target/**/*.jar, **/target/**/*.war, **/target/site/apidocs/**', fingerprint: true
                 }
             }
         }
@@ -18,7 +18,7 @@ pipeline {
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'target/site/pmd.xml', fingerprint: true
+                    archiveArtifacts artifacts: '**/target/site/pmd.xml', fingerprint: true
                 }
             }
         }
@@ -28,7 +28,7 @@ pipeline {
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'target/site/apidocs/**', fingerprint: true
+                    archiveArtifacts artifacts: '**/target/site/apidocs/**', fingerprint: true
                 }
             }
         }
