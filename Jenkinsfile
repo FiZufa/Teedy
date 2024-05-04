@@ -1,10 +1,9 @@
 pipeline {
     agent any
     stages {
-        stage('Build') { 
+        stage('Build') {
             steps {
-                // sh 'mvn -B clean package' 
-                sh 'mvn -B --fail-never package' 
+                sh 'mvn -B --fail-never package'
             }
         }
         stage('pmd') {
@@ -12,23 +11,23 @@ pipeline {
                 sh 'mvn pmd:pmd'
             }
         }
-           stage('javadoc') {
+        stage('javadoc') {
             steps {
                 sh 'mvn javadoc:jar'
             }
-        }   
-                   stage('Test Report') {
+        }
+        stage('Test Report') {
             steps {
                 sh 'mvn surefire-report:report'
             }
-        }   
+        }
     }
-
     post {
         always {
             archiveArtifacts artifacts: '**/target/**/*.html', fingerprint: true
             archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true
-            archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
+            // Comment out or remove this line if you don't produce .war files
+            // archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
         }
     }
 }
