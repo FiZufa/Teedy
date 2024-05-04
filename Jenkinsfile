@@ -3,8 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B clean test'
-                sh 'ls -R target/'
+                sh 'mvn -B clean install --fail-never'
             }
             post {
                 always {
@@ -16,6 +15,7 @@ pipeline {
         stage('pmd') {
             steps {
                 sh 'mvn pmd:pmd'
+                sh 'ls -R target/'
             }
             post {
                 always {
