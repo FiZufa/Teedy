@@ -10,7 +10,7 @@ import org.junit.Test;
 
 /**
  * Tests the persistance layer.
- * 
+ *
  * @author jtremeaux
  */
 public class TestJpa extends BaseTransactionalTest {
@@ -25,7 +25,7 @@ public class TestJpa extends BaseTransactionalTest {
         user.setRoleId("admin");
         user.setStorageQuota(10L);
         String id = userDao.create(user, "me");
-        
+
         TransactionUtil.commit();
 
         // Search a user by his ID
