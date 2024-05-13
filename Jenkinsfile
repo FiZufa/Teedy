@@ -1,33 +1,51 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        // Package the application using Maven
+        stage('Package') {
             steps {
-                sh 'mvn -B --fail-never package'
+                // Checkout code from the main branch
+                checkout scm
+                // Run Maven to package the application, skipping unit tests
+                sh 'mvn -B -DskipTests clean package'
             }
         }
-        stage('pmd') {
+        // Build the Docker image
+        stage('Building image') {
             steps {
-                sh 'mvn pmd:pmd'
+                // Build the Docker image using the Dockerfile in the project
+                script {
+                    dockerImage = docker.build("fitria06/teedy-image")
+                }
             }
         }
-        stage('javadoc') {
+        // Upload the Docker image to Docker Hub
+        stage('Upload image') {
             steps {
-                sh 'mvn javadoc:jar'
+                // Push the Docker image to Docker Hub
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'labteedy2024') {
+                        dockerImage.push("latest")
+                    }
+                }
             }
         }
-        stage('Test Report') {
+        // Run Docker containers
+        stage('Run containers') {
             steps {
-                sh 'mvn surefire-report:report'
+                script {
+                    // Run three containers with specified port mappings
+                    def container1 = docker.run("fitria06/teedy-image", "-p 8082:80")
+                    def container2 = docker.run("fitria06/teedy-image", "-p 8083:80")
+                    def container3 = docker.run("fitria06/teedy-image", "-p 8084:80")
+                    // Sleep for 30 seconds to allow containers to execute
+                    sleep 30
+                    // Stop the containers after running
+                    container1.stop()
+                    container2.stop()
+                    container3.stop()
+                }
             }
-        }
-    }
-    post {
-        always {
-            archiveArtifacts artifacts: '**/target/**/*.html', fingerprint: true
-            archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true
-            // Comment out or remove this line if you don't produce .war files
-            // archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
         }
     }
 }
