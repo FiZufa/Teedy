@@ -5,7 +5,8 @@ pipeline {
         stage('Package') {
             steps {
                 // Checkout code from the main branch
-                checkout scm
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/FiZufa/Teedy.git']])
+
                 // Run Maven to package the application, skipping unit tests
                 sh 'mvn -B -DskipTests clean package'
             }
