@@ -26,7 +26,7 @@ pipeline {
                 // Push the Docker image to Docker Hub
                 script {
                     docker.withRegistry('', 'labteedy2024') {
-                        dockerImage.push("")
+                        dockerImage.push()
                     }
                 }
             }
