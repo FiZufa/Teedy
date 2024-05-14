@@ -16,7 +16,7 @@ pipeline {
             steps {
                 // Build the Docker image using the Dockerfile in the project
                 script {
-                    dockerImage = docker.build("fitria06/teedy-image")
+                    dockerImage = docker.build("fitria06/teedy-image:latest")
                 }
             }
         }
