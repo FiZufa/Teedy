@@ -39,12 +39,12 @@ pipeline {
                     def container1 = docker.run("fitria06/teedy-image", "-p 8082:80")
                     def container2 = docker.run("fitria06/teedy-image", "-p 8083:80")
                     def container3 = docker.run("fitria06/teedy-image", "-p 8084:80")
-                    // Sleep for 30 seconds to allow containers to execute
-                    sleep 30
-                    // Stop the containers after running
-                    container1.stop()
-                    container2.stop()
-                    container3.stop()
+                    // // Sleep for 30 seconds to allow containers to execute
+                    // sleep 30
+                    // // Stop the containers after running
+                    // container1.stop()
+                    // container2.stop()
+                    // container3.stop()
                 }
             }
         }
