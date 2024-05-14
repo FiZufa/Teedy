@@ -16,7 +16,7 @@ pipeline {
             steps {
                 // Build the Docker image using the Dockerfile in the project
                 script {
-                    dockerImage = docker.build("fitria06/teedy-image:latest")
+                    dockerImage = docker.build("fitria06/teedy-image")
                 }
             }
         }
@@ -36,9 +36,9 @@ pipeline {
             steps {
                 script {
                     // Run three containers with specified port mappings
-                    def container1 = docker.run("fitria06/teedy-image:latest", "-p 8082:80")
-                    def container2 = docker.run("fitria06/teedy-image:latest", "-p 8083:80")
-                    def container3 = docker.run("fitria06/teedy-image:latest", "-p 8084:80")
+                    def container1 = docker.run("fitria06/teedy-image", "-p 8082:80")
+                    def container2 = docker.run("fitria06/teedy-image", "-p 8083:80")
+                    def container3 = docker.run("fitria06/teedy-image", "-p 8084:80")
                     // Sleep for 30 seconds to allow containers to execute
                     sleep 30
                     // Stop the containers after running
