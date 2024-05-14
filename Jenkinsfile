@@ -36,9 +36,9 @@ pipeline {
             steps {
                 script {
                     // Run three containers with specified port mappings
-                    def container1 = docker.run("fitria06/teedy-image", "-p 8082:8080")
-                    def container2 = docker.run("fitria06/teedy-image", "-p 8083:8080")
-                    def container3 = docker.run("fitria06/teedy-image", "-p 8084:8080")
+                    def container1 = dockerImage.run("fitria06/teedy-image", "-p 8082:8080")
+                    def container2 = dockerImage.run("fitria06/teedy-image", "-p 8083:8080")
+                    def container3 = dockerImage.run("fitria06/teedy-image", "-p 8084:8080")
                     // // Sleep for 30 seconds to allow containers to execute
                     // sleep 30
                     // // Stop the containers after running
